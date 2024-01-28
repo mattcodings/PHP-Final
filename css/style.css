@@ -1,0 +1,171 @@
+:root {
+    --green: #A8E683;
+    --yellow: #FDF21C;
+    --light-green: #D8F1D3;
+    --orange: #FFD090;
+    --red: #E86245;
+    --white: #F9FCF3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+
+}
+/*Sign In/Sign Up page*/
+
+
+
+.out-of-stock-text {
+    color: rgb(150,150,150)
+}
+
+/*header*/
+.header-nav {
+    width: 1000px;
+    margin: auto;
+}
+.hero-image {
+    background-image: url('../images/header-juices.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 300px;
+
+    margin: auto;
+    text-align: center;
+}
+
+/*nav bar*/
+.container {
+    display: flex;
+    width: 100%;
+gap: 1rem;
+    justify-content: end;
+    padding: 20px;
+}
+
+.main-nav-item a {
+font-size: 2rem;
+    text-align: center;
+    display: inline-block;
+    padding: 25px;
+
+}
+.active {
+    background-color: blue;
+}
+.main-nav-item a:hover {
+    background-color: #eaeaea;
+}
+
+.main-nav-item a {
+    color: black;
+    text-decoration: none;
+}
+
+/*home page menu*/
+.menu-page {
+    position: relative;
+    width: 100%;
+    background-image: url('../images/menubackground.jpg'), linear-gradient(rgba(255,255,255, 1), #D8F1D3);
+    background-size: cover;
+
+}
+
+.food-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    border: 1px solid rgba(0,0,0,0.5);
+    padding: 50px;
+    margin: auto;
+    width: 65%;
+    row-gap: 50px;
+    border-radius: 50px;
+
+    opacity: 1;
+    background-color: var(--white);
+
+}
+
+.menu-item {
+    font-size: 2rem;
+    width: 40%;
+    padding: 15px 4%;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 1px 3px 1px 1px #000;
+    background-color: var(--light-green);
+
+}
+
+.menu-header {
+    text-align: center;
+    font-size: 4rem;
+
+
+}
+
+.buy-juice-button {
+    font-size: 1.5rem;
+    padding: 5px 20px;
+    text-align: center;
+    margin: auto;
+}
+
+/*order form*/
+.order-container {
+    display: flex;
+    align-items: center;
+justify-content: space-between;
+
+
+
+}
+.select-a-juice-container {
+display: flex;
+flex-wrap: wrap;
+
+
+}
+.select-a-juice-item {
+
+}
+.or-divider {
+    font-size: 80px;
+
+}
+.build-your-own {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/*Sign in page*/
+/*entire signup/login section*/
+.auth-section{
+
+}
+
+/*login section*/
+.login-section {
+    border: 1px solid black;
+    margin: 50px auto 0;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.login-title {
+    text-align: center;
+}
+
+.btnSubmit {
+    margin-top: 25px;
+    width: 100%;
+    background: var(--green);
+}
