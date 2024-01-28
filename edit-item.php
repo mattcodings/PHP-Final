@@ -29,12 +29,10 @@ if (isset($_POST['edit'])) {
 
     $formIsValid = true;
 
-
-
     $name = $_POST['name'] ?? '';
     $foodCategoryID = $_POST['food-category-id'] ?? '';
-    $primaryNutrient = $_POST['primary-nutrient'] ?? '';
-    $color = $_POST['color'] ?? '';
+    $foodQuantity = $_POST['food-quantity'] ?? '';
+
     $foodId = $_POST['foodId'] ?? '';
 
     if (empty($name) || strlen($name) < 2) {
@@ -42,30 +40,17 @@ if (isset($_POST['edit'])) {
         $nameError = "Name must be at least 2 characters.";
     }
 
-    if (empty($primaryNutrient) || strlen($primaryNutrient) < 2) {
-        $formIsValid = false;
-        $nutrientError = "Nutrient must be at least 2 characters.";
-    }
-
-    if (empty($color) || strlen($color) < 2) {
-        $formIsValid = false;
-        $colorError = "Color must be at least 2 characters.";
-    }
-
     $name = strip_tags($name);
-    $primaryNutrient = strip_tags($primaryNutrient);
-    $color = strip_tags($color);
 
     if($formIsValid) {
 
-        $query = "UPDATE `Food` SET `Name` = ?, `FoodCategoryID` = ?, `PrimaryNutrient` = ?, `Color` = ?
+        $query = "UPDATE `Food` SET `Name` = ?, `FoodCategoryID` = ?, `FoodQuantity` = ?
 WHERE `Food`.`FoodID` = ?";
 
         $stmt = mysqli_prepare($db, $query) or die('Invalid query');
 
-        mysqli_stmt_bind_param($stmt, 'sissi', $name, $foodCategoryID, $primaryNutrient, $color, $foodId);
+        mysqli_stmt_bind_param($stmt, 'siii', $name, $foodCategoryID, $foodQuantity, $foodId);
         mysqli_stmt_execute($stmt);
-
 
         header('Location: item.php?id=' . $foodId);
     }
@@ -87,23 +72,14 @@ WHERE `Food`.`FoodID` = ?";
         </select>
     </p>
     <p class="edit-line">
-        <label for="primary-nutrient">Primary Nutrient: </label>
-        <input type="text" id="primary-nutrient" name="primary-nutrient" value="<?= $foodItem['PrimaryNutrient'] ?>">
+        <label for="food-quantity">Food Quantity: </label>
+        <input type="number" id="food-quantity" name="food-quantity" value="<?= $foodItem['FoodQuantity'] ?>">
         <label for="name" class="error"><?= $nutrientError ?? '' ?></label>
-    </p>
-    <p class="edit-line">
-        <label for="color">Color: </label>
-        <input type="text" id="color" name="color" value="<?= $foodItem['Color'] ?>">
-        <label for="name" class="error"><?= $colorError ?? '' ?></label>
     </p>
 <br>
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
         <input type="hidden" name="foodId" value="<?= $foodItem['FoodID'] ?>">
         <button type="submit" name="edit" class="btn btn-save">Save Changes</button>
-
-
-        <button class="back-to-food"><p><a href="food-items.php">Back to Food</a></p></button>
-
-
+        <button class="back-to-food"><a href="food-items.php">Back to Food</a></button>
 </form>
 </div>

@@ -45,7 +45,7 @@ if (isset($_POST['add'])) {
     $foodQuantity = strip_tags($foodQuantity);
 
     if ($formIsValid) {
-        $query = "INSERT INTO `Food`
+        $query = "INSERT INTO `FoodMenu`
 (`FoodID`, `Name`, `FoodCategoryID`, `FoodQuantity`)
 VALUES
 (NULL, ?, ?, ?);";

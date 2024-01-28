@@ -121,30 +121,66 @@ font-size: 2rem;
 .order-container {
     display: flex;
     align-items: center;
-justify-content: space-between;
-
-
-
+justify-content: space-around;
 }
-.select-a-juice-container {
-display: flex;
-flex-wrap: wrap;
 
+.select-a-juice-container, .build-your-own-container {
+    width: 40%;
+    border-radius: 20px;
+    background-color: var(--light-green);
+    padding: 20px 0;
+}
 
+.select-a-juice-container h2, .build-your-own-container h2 {
+    text-align: center;
+}
+
+.select-a-juice{
+display: grid;
+grid-template-columns: 40% 40%;
+    justify-content: space-around;
 }
 .select-a-juice-item {
 
-}
-.or-divider {
-    font-size: 80px;
+    text-align: center;
+    background-color: var(--white);
+margin-top: 10px;
+    border-radius: 20px;
+    padding: 5px;
 
 }
+
+.buy-juice-button {
+    border-radius: 50px;
+    background-color: var(--red);
+    border: 5px solid var(--green)
+}
+
+.buy-juice-button a {
+    text-decoration: none;
+    color: var(--white)
+}
+/*.or-divider {*/
+/*    font-size: 80px;*/
+/*    width: 30%;*/
+/*    border: 1px solid black;*/
+/*    text-align: center;*/
+/*}*/
+
+
 .build-your-own {
 
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: 30% 30%;
+    justify-content: space-around;
 }
+.build-your-own-item {
+padding: 5px;
+    background-color: var(--light-green);
+    margin: 5px;
+}
+
+
 
 /*Sign in page*/
 /*entire signup/login section*/
@@ -168,4 +204,25 @@ flex-wrap: wrap;
     margin-top: 25px;
     width: 100%;
     background: var(--green);
+}
+
+/*Inventory page*/
+.search-add-food-container {
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    margin: 50px auto;
+    align-items: center;
+}
+table {
+    margin: auto;
+}
+th {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
 }

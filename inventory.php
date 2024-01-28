@@ -18,10 +18,13 @@ $result = mysqli_query($db, $query) or die('Error loading food.');
 
 $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
 ?>
+<section class="search-add-food-container">
     <form>
         <label class="search">Search: <input id="search" placeholder="Search Food"></label>
 
     </form>
+    <button class="btn-add-food"><a href="add-item.php?id=<?=$item['FoodID'] ?>" class="btn">Add Food</a></button>
+</section>
     <table id="food-items-table" class="data-table">
         <thead>
         <tr>
@@ -45,7 +48,6 @@ $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
         ?>
         </tbody>
     </table>
-    <button class="btn-add-food"><a href="add-item.php?id=<?=$item['FoodID'] ?>" class="btn">Add Food</a></button>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/search-food.js"></script>
     <script src="js/functions.js"></script>

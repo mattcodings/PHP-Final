@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="css/style.css">
 <?php
 include 'includes/header.php';
-session_name('mzwerlein_class');
-session_start();
+//session_name('mzwerlein_class');
+//session_start();
 
 $_SESSION['csrf_token'] = $_SESSION['csrf_token'] ?? md5(uniqid());
 require_once "includes/database.php";

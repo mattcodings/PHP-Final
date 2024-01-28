@@ -4,7 +4,7 @@
 require_once "includes/database.php";
 $sort = $_GET['sort'] ?? 'Name';
 
-$queryMenu = "SELECT FoodMenu.FoodName, FoodMenu.Ingredients, FoodMenu.Price
+$queryMenu = "SELECT FoodMenu.MenuItemName, FoodMenu.Ingredients, FoodMenu.Price
 FROM FoodMenu";
 
 $resultMenu = mysqli_query($db, $queryMenu) or die('Error loading food.');
@@ -26,17 +26,16 @@ $formIsValid = true;
 //if (isset($_POST['purchase'])) {
 //    echo 'Array: ' . implode(" ", $choices);
 //}
-    if (count($choices) < 1) {
+//    if (count($choices) < 1) {
+//
+//        $formIsValid = false;
+//        $error = 'Please select at least one ingredient';
+//        echo $error;
+//    }
 
-        $formIsValid = false;
-        $error = 'Please select at least one ingredient';
-        echo $error;
-    }
-
-if($formIsValid)
-    echo 'Array: ' . implode(' ', $choices);
+//if($formIsValid)
+//    echo 'Array: ' . implode(' ', $choices);
 foreach ($choices as &$food){
-    echo $food;
     $query = "UPDATE Food SET FoodQuantity = FoodQuantity + 1 WHERE Name = '$food'";
     $stmt = mysqli_prepare($db, $query) or die('Invalid query');
     mysqli_stmt_execute($stmt);
@@ -49,18 +48,21 @@ foreach ($choices as &$food){
 ?>
                 <form method="post">
                     <section class="order-container">
-                    <section>
-                    <h2>Select a Juice</h2>
                     <section class="select-a-juice-container">
+                    <h2>Select a Juice</h2>
+                    <section class="select-a-juice">
 
                         <?php
                         $resultMenu = mysqli_query($db, $queryMenu) or die('Error: ' . mysqli_error($db));
                         while($row = mysqli_fetch_array($resultMenu, MYSQLI_ASSOC)) {
+                            $ingredients = $row['Ingredients'];
+                            $ingredients = ucwords(implode(', ', preg_split('/[\s]+/', $ingredients)));
+
                         ?>
                             <section class="select-a-juice-item">
                                 <section>
-                                <h3 class="select-a-juice-name"><?=$row['FoodName'] ?></h3>
-                                <p class="select-a-juice-ingredients"><?=$row['Ingredients'] ?></p>
+                                <h3 class="select-a-juice-name"><?=$row['MenuItemName'] ?></h3>
+                                <p class="select-a-juice-ingredients"><?= $ingredients ?></p>
                                 <p class="select-a-juice-price">$<?=$row['Price'] ?></p>
                                 <button class="buy-juice-button"><a href="food-items.php">Buy Juice</a></button>
                                 </section>
@@ -71,8 +73,8 @@ foreach ($choices as &$food){
 
                     </section>
                     </section>
-                        <p class="or-divider">Or</p>
-                    <section>
+<!--                        <p class="or-divider">Or</p>-->
+                    <section class="build-your-own-container">
                     <h2>Build Your Own</h2>
 
                     <section class="build-your-own">
@@ -84,14 +86,14 @@ foreach ($choices as &$food){
                             if ($row['FoodCategoryID'] == 1 && $row['FoodQuantity'] > 0 || $row['FoodCategoryID'] == 2 && $row['FoodQuantity'] > 0){
 
                                 ?>
-                                <label><input type="checkbox" name="choices[]" value=<?=$row['Name']?>><?=$row['Name']?></label><br>
+                                <label class="build-your-own-item"><input type="checkbox" name="choices[]" value=<?=$row['Name']?>><?=$row['Name']?></label>
                                 <?php
                             }
                             else {
 
 
                                 ?>
-                                <span class="out-of-stock-text"><?=$row['Name']?> (out of stock)</span><br>
+                                <span class=" build-your-own-item out-of-stock-text"><?=$row['Name']?> (out of stock)</span>
                                 <?php
                             }
                         }

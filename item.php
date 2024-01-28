@@ -19,7 +19,7 @@ $food = mysqli_fetch_array($result, MYSQLI_ASSOC);
 <br>
 <?php
 
-$query = "SELECT FoodID, Food.Name, FoodCategory.Category, Food.PrimaryNutrient, Food.Color
+$query = "SELECT FoodID, Food.Name, FoodCategory.Category, Food.FoodQuantity
 FROM Food
 LEFT JOIN FoodCategory ON Food.FoodCategoryID = FoodCategory.FoodCategoryID
 WHERE FoodID = '$foodid'
@@ -34,7 +34,7 @@ if(mysqli_num_rows($result)):
     <tr>
         <th class="item-th">Name</th>
         <th class="item-th">Category</th>
-        <th class="item-th">PrimaryNutrient</th>
+        <th class="item-th">Quantity</th>
         <th class="item-th">Color</th>
     </tr>
     </thead>
@@ -44,8 +44,7 @@ if(mysqli_num_rows($result)):
         echo"<tr>
 <td class='item-td'>{$row['Name']}</td>
 <td class='item-td'>{$row['Category']}</td>
-<td class='item-td'>{$row['PrimaryNutrient']}</td>
-<td class='item-td'>{$row['Color']}</td>
+<td class='item-td'>{$row['FoodQuantity']}</td>
 <td class='edit-btn'><button class='edit-button'><a href='edit-item.php?id={$row['FoodID']}' class='edit-link'>Edit</a></button></td>
 <td class='delete-btn'><button class='delete-button'><a href='delete-item.php?id={$row['FoodID']}' class='delete-link'>Delete</a></button></td>
 </tr>";

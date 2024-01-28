@@ -17,18 +17,18 @@ include "includes/database.php";
 </head>
 <body>
 <nav class="container">
-    <div class="main-nav-item"><a href="menu.php">Menu</a></div>
+    <div class="main-nav-item"><a href="index.php">Menu</a></div>
     <div class="main-nav-item"><a href="food-items.php">Create</a></div>
 
-    <div class="main-nav-item"><a href="index.php">Sign In/Sign Up</a></div>
+    <div class="main-nav-item"><a href="login.php">Sign In/Sign Up</a></div>
     <?php
     if(isset($_SESSION['foodAuthUser']) and $_SESSION['foodAuthUser']):
         ?>
         <?php if($_SESSION['foodAuthUser']['role'] == 'admin'): ?>
         <div class="main-nav-item"><a href="inventory.php">Inventory</a></div>
     <?php endif; ?>
-    <?php else: ?>
-        <div class="main-nav-item">Can't Access</div>
+
+
     <?php endif; ?>
 
 </nav>
