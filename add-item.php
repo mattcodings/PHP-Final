@@ -15,7 +15,7 @@ $id = intval($id);
 $query = "SELECT * FROM Food WHERE FoodID = '$id'";
 
 // execute query
-$result = mysqli_query($db, $query) or die('Error loading city.');
+$result = mysqli_query($db, $query) or die('Error loading table.');
 
 // get one record from the database
 $item = mysqli_fetch_array($result, MYSQLI_ASSOC);

@@ -12,16 +12,16 @@ $id = $_GET['id'] ?? '1';
 $id = intval($id);
 
 // build query
-$query = "SELECT * FROM Food WHERE FoodID = '$id'";
+$query = "SELECT * FROM FoodMenu WHERE MenuItemID = '$id'";
 
 // execute query
-$result = mysqli_query($db, $query) or die('Error loading city.');
+$result = mysqli_query($db, $query) or die('Error loading table.');
 
 // get one record from the database
 $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
 ?>
 
-<h1>Add Item</h1>
+<h1>Add Menu Item</h1>
 
 <?php
 if (isset($_POST['add'])) {
@@ -30,31 +30,30 @@ if (isset($_POST['add'])) {
     }
 
     $formIsValid = true;
-    $foodId = $_POST['foodId'] ?? '';
-    $name = $_POST['name'] ?? '';
-    $foodCategoryID = $_POST['food-category-id'] ?? '';
-    $foodQuantity = $_POST['food-quantity'] ?? '';
+    $menuItemId = $_POST['menuItemId'] ?? '';
+    $menuItemName = $_POST['menuItemName'] ?? '';
+    $ingredients = $_POST['ingredients'] ?? '';
+    $price = $_POST['price'] ?? '';
+    $menuName = $_POST['menuName'] ?? '';
 
-    if (empty($name) || strlen($name) < 2) {
-        $formIsValid = false;
-        $nameError = "Name must be at least 2 characters.";
-    }
 
-    $name = strip_tags($name);
-    $foodCategoryID = strip_tags($foodCategoryID);
-    $foodQuantity = strip_tags($foodQuantity);
+
+    $menuItemName = strip_tags($menuItemName);
+    $ingredients = strip_tags($ingredients);
+    $price = strip_tags($price);
+    $menuName = strip_tags($menuName);
 
     if ($formIsValid) {
         $query = "INSERT INTO `FoodMenu`
-(`FoodID`, `Name`, `FoodCategoryID`, `FoodQuantity`)
+(`MenuItemID`, `MenuItemName`, `Ingredients`, `Price`, MenuName)
 VALUES
-(NULL, ?, ?, ?);";
+(NULL, ?, ?, ?, ?);";
 
         $stmt = mysqli_prepare($db, $query) or die('Invalid query');
-        mysqli_stmt_bind_param($stmt, 'sis', $name, $foodCategoryID, $foodQuantity);
+        mysqli_stmt_bind_param($stmt, 'ssis', $menuItemName, $ingredients, $price, $menuName);
         mysqli_stmt_execute($stmt);
         if (mysqli_insert_id($db)) {
-            header('Location: food-items.php?id=' . $foodId);
+            header('Location: food-items.php?id=' . $menuItemId);
         }
     }
 }
@@ -62,26 +61,45 @@ mysqli_close($db);
 ?>
 <form method="post"
 <p class="edit-line">
-    <label for="name">Name: </label>
-    <input type="text" id="name" name="name">
-    <label for="name" class="error"><?= $nameError ?? '' ?></label>
+    <label for="menuItemName">Name: </label>
+    <input type="text" id="menuItemName" name="menuItemName">
+    <label for="menuItemName" class="error"><?= $nameError ?? '' ?></label>
 </p>
 
+
 <p class="edit-line">
-    <label for="food-category-id">Type of Food: </label>
-    <select type="text" id="food-category-id" name="food-category-id">
+    <label for="ingredients">Ingredients: </label>
+    <input type="text" id="ingredients" name="ingredients">
+    <label for="ingredients" class="error"><?= $quantityError ?? '' ?></label>
+</p>
+<p class="edit-line">
+    <label for="price">Price: </label>
+    <input type="text" id="price" name="price">
+    <label for="price" class="error"><?= $quantityError ?? '' ?></label>
+</p>
+<p class="edit-line">
+    <label for="menu-name">Menu: </label>
+    <label>Food
+    <input type="radio" name="menuName" value="food">
+    </label>
+    <label>Juices
+        <input type="radio" name="menuName" value="juices">
+    </label>
+    <label>Desserts
+        <input type="radio" name="menuName" value="desserts">
+    </label>
+    <select type="text" id="menu-name" name="menu-name">
+
+        <!--        <option value="food" --><?php //= $item['MenuName'] == 'food' ? 'selected' : '' ?><!-->Food</option>-->
+        <!--        <option value="juices" --><?php //= $item['MenuName'] == 'juices' ? 'selected' : '' ?><!-->Juices</option>-->
+        <!--        <option value="desserts" --><?php //= $item['MenuName'] == 'desserts' ? 'selected' : '' ?><!-->Desserts</option>-->
         <option value="1" <?= $item['FoodCategoryID'] == 1 ? 'selected' : '' ?>>Fruit</option>
         <option value="2" <?= $item['FoodCategoryID'] == 2 ? 'selected' : '' ?>>Vegetable</option>
         <option value="3" <?= $item['FoodCategoryID'] == 3 ? 'selected' : '' ?>>Topping</option>
     </select>
 </p>
 <p class="edit-line">
-    <label for="food-quantity">Quantity: </label>
-    <input type="number" id="food-quantity" name="food-quantity">
-    <label for="name" class="error"><?= $quantityError ?? '' ?></label>
-</p>
-<p class="edit-line">
-    <input type="hidden" name="foodId" value="<?= $item['FoodID'] ?>">
+    <input type="hidden" name="foodId" value="<?= $item['MenuItemID'] ?>">
 </p>
 <p class="edit-line">
     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
