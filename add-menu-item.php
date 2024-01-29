@@ -19,6 +19,15 @@ $result = mysqli_query($db, $query) or die('Error loading table.');
 
 // get one record from the database
 $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+$sort = $_GET['sort'] ?? 'Name';
+$queryFood = "SELECT Food.FoodID, Food.Name, Food.FoodCategoryID, Food.FoodQuantity
+FROM Food
+ORDER BY $sort";
+
+$foodResult = mysqli_query($db, $queryFood) or die('Error loading food.');
+$foodItem = mysqli_fetch_array($foodResult, MYSQLI_ASSOC);
+$ingredients = $_POST['ingredients'] ?? [];
 ?>
 
 <h1>Add Menu Item</h1>
@@ -32,14 +41,13 @@ if (isset($_POST['add'])) {
     $formIsValid = true;
     $menuItemId = $_POST['menuItemId'] ?? '';
     $menuItemName = $_POST['menuItemName'] ?? '';
-    $ingredients = $_POST['ingredients'] ?? '';
+    $ingredients = implode( ', ' , $_POST['ingredients']) ?? '';
     $price = $_POST['price'] ?? '';
     $menuName = $_POST['menuName'] ?? '';
 
 
 
     $menuItemName = strip_tags($menuItemName);
-    $ingredients = strip_tags($ingredients);
     $price = strip_tags($price);
     $menuName = strip_tags($menuName);
 
@@ -66,12 +74,26 @@ mysqli_close($db);
     <label for="menuItemName" class="error"><?= $nameError ?? '' ?></label>
 </p>
 
+<?php
 
-<p class="edit-line">
-    <label for="ingredients">Ingredients: </label>
-    <input type="text" id="ingredients" name="ingredients">
-    <label for="ingredients" class="error"><?= $quantityError ?? '' ?></label>
-</p>
+
+while($row = mysqli_fetch_array($foodResult, MYSQLI_ASSOC)){
+
+
+        ?>
+        <label class=""><input type="checkbox" name="ingredients[]" value=<?=$row['Name']?>><?=$row['Name']?></label>
+        <?php
+
+
+}
+
+?>
+
+<!--<p class="edit-line">-->
+<!--    <label for="ingredients">Ingredients: </label>-->
+<!--    <input type="text" id="ingredients" name="ingredients">-->
+<!--    <label for="ingredients" class="error">--><?php //= $quantityError ?? '' ?><!--</label>-->
+<!--</p>-->
 <p class="edit-line">
     <label for="price">Price: </label>
     <input type="text" id="price" name="price">
@@ -88,15 +110,7 @@ mysqli_close($db);
     <label>Desserts
         <input type="radio" name="menuName" value="desserts">
     </label>
-    <select type="text" id="menu-name" name="menu-name">
 
-        <!--        <option value="food" --><?php //= $item['MenuName'] == 'food' ? 'selected' : '' ?><!-->Food</option>-->
-        <!--        <option value="juices" --><?php //= $item['MenuName'] == 'juices' ? 'selected' : '' ?><!-->Juices</option>-->
-        <!--        <option value="desserts" --><?php //= $item['MenuName'] == 'desserts' ? 'selected' : '' ?><!-->Desserts</option>-->
-        <option value="1" <?= $item['FoodCategoryID'] == 1 ? 'selected' : '' ?>>Fruit</option>
-        <option value="2" <?= $item['FoodCategoryID'] == 2 ? 'selected' : '' ?>>Vegetable</option>
-        <option value="3" <?= $item['FoodCategoryID'] == 3 ? 'selected' : '' ?>>Topping</option>
-    </select>
 </p>
 <p class="edit-line">
     <input type="hidden" name="foodId" value="<?= $item['MenuItemID'] ?>">

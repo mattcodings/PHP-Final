@@ -36,6 +36,7 @@ $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 $result = mysqli_query($db, $query) or die('Error: ' . mysqli_error($db));
                 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     if ($row['MenuName'] == 'food'){
+
                         ?>
                         <section class="menu-item">
                             <h3><?=$row['MenuItemName'] ?></h3>

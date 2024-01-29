@@ -18,6 +18,7 @@ ORDER BY $sort";
 $result = mysqli_query($db, $query) or die('Error loading food.');
 $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $choices = $_POST['choices'] ?? [];
+$menuChoices = $_POST['menuChoices'] ?? [];
 
 include 'includes/header.php';
 
@@ -36,13 +37,22 @@ $formIsValid = true;
 //if($formIsValid)
 //    echo 'Array: ' . implode(' ', $choices);
 foreach ($choices as &$food){
-    $query = "UPDATE Food SET FoodQuantity = FoodQuantity + 1 WHERE Name = '$food'";
+    $query = "UPDATE Food SET FoodQuantity = FoodQuantity - 1 WHERE Name = '$food'";
     $stmt = mysqli_prepare($db, $query) or die('Invalid query');
     mysqli_stmt_execute($stmt);
+    echo implode(' ', $choices);
 }
-//    for($i = 0; $i < count($choices); $i++){
-//
-//    }
+foreach ($menuChoices as $orders){
+    $newString = $menuChoices[0];
+    $newArray = explode(';', $newString);
+    foreach($newArray as $foodItems) {
+        $query = "UPDATE Food SET FoodQuantity = FoodQuantity - 1 WHERE Name = '$foodItems'";
+        $stmt = mysqli_prepare($db, $query) or die('Invalid query');
+        mysqli_stmt_execute($stmt);
+    }
+
+
+}
 
 
 ?>
@@ -64,7 +74,7 @@ foreach ($choices as &$food){
                                 <h3 class="select-a-juice-name"><?=$row['MenuItemName'] ?></h3>
                                 <p class="select-a-juice-ingredients"><?= $ingredients ?></p>
                                 <p class="select-a-juice-price">$<?=$row['Price'] ?></p>
-                                <button class="buy-juice-button"><a href="food-items.php">Buy Juice</a></button>
+                                    <label class="build-your-own-item"><input type="checkbox" name="menuChoices[]" value=<?=$row['Ingredients']?>><?=$row['MenuItemName']?></label>
                                 </section>
                             </section>
                             <?php
